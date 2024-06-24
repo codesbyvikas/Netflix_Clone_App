@@ -16,10 +16,10 @@ class MainApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.dark(),
+        colorScheme:const ColorScheme.dark(),
         fontFamily: GoogleFonts.ptSans().fontFamily,
       ),
-      home: SplashScreen()
+      home: const SplashScreen()
     );
   }
 }

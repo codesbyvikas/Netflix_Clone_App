@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone_app/data/api_services.dart';
+import 'package:netflix_clone_app/models/tv_series_model.dart';
 import 'package:netflix_clone_app/models/upcoming_model.dart';
+import 'package:netflix_clone_app/widgets/custom_carousel.dart';
 import 'package:netflix_clone_app/widgets/movie_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,13 +13,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<UpcomingMovieModel> upcomingmodel;
+  late Future<UpcomingMovieModel> upComingMovies;
+  late Future<UpcomingMovieModel> nowPlayingMovies;
+  late Future<TvSeriesModel> topRatedTvSeries;
+
   ApiServices apiServices = ApiServices();
 
   @override
   void initState() {
-    upcomingmodel = apiServices.getUpcomingMovies();
-    // TODO: implement initState
+    upComingMovies = apiServices.getUpcomingMovies();
+    nowPlayingMovies = apiServices.getNowPlaying();
+    topRatedTvSeries = apiServices.getTvSeries();
     super.initState();
   }
 
@@ -59,10 +65,34 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.all(15),
             child: Column(
               children: [
+                FutureBuilder(
+                    future: topRatedTvSeries,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasData) {
+                        return CustomCarouselWidget(data: snapshot.data!);
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    }),
                 SizedBox(
-                    height: 220,
-                    child: MovieCard(
-                        future: upcomingmodel, headLineText: "Upcoming Movies"))
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 220,
+                  child: MovieCard(
+                      future: nowPlayingMovies,
+                      headLineText: "Now Playing Movies"),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 220,
+                  child: MovieCard(
+                      future: upComingMovies, headLineText: "Upcoming Movies"),
+                ),
               ],
             ),
           ),
