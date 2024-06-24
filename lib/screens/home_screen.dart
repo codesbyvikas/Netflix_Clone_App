@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(right: 20),
               child: InkWell(
                 onTap: () {},
-                child: Icon(
+                child: const Icon(
                   Icons.search,
                   color: Colors.white,
                 ),
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(10),
             child: Column(
               children: [
                 FutureBuilder(
