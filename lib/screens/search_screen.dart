@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:netflix_clone_app/data/api_data.dart';
 import 'package:netflix_clone_app/data/api_services.dart';
 import 'package:netflix_clone_app/models/movie_recommendation_model.dart';
+import 'package:netflix_clone_app/models/popular_movie_model.dart';
 import 'package:netflix_clone_app/models/seach_movie_model.dart';
 import 'package:netflix_clone_app/screens/movie_details_screen.dart';
 
@@ -20,11 +21,11 @@ class _SearchScreenState extends State<SearchScreen> {
   ApiServices apiServices = ApiServices();
   SearchMovieModel? searchMovieModel;
   bool _isLoading = false;
-  late Future<MovieRecommendationModel> recommendedMovies;
+  late Future<PopularMovieModel> popularMovies;
 
   @override
   void initState() {
-    recommendedMovies = apiServices.getRecommendedMOvies();
+    popularMovies = apiServices.getPopularMOvies();
     super.initState();
   }
 
@@ -73,7 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
               const SizedBox(height: 20),
               searchController.text.isEmpty
                   ? FutureBuilder(
-                      future: recommendedMovies,
+                      future: popularMovies,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           var data = snapshot.data!.results;
@@ -147,44 +148,51 @@ class _SearchScreenState extends State<SearchScreen> {
                       : searchMovieModel == null
                           ? const SizedBox.shrink()
                           : Expanded(
-                              child: GridView.builder(
-                                itemCount: searchMovieModel!.results.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 7,
-                                  mainAxisSpacing: 15,
-                                  childAspectRatio: 1.0 / 2,
-                                ),
-                                itemBuilder: (context, index) {
-                                  final movie =
-                                      searchMovieModel!.results[index];
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      movie.backdropPath == null
-                                          ? Image.asset("assets/netflix.png")
-                                          : CachedNetworkImage(
-                                              imageUrl:
-                                                  "$imageUrl${movie.backdropPath}",
-                                              height: 170,
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
+                              child: InkWell(
+                                child: GridView.builder(
+                                  itemCount: searchMovieModel!.results.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 7,
+                                    mainAxisSpacing: 15,
+                                    childAspectRatio: 1.0 / 2,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final movie =
+                                        searchMovieModel!.results[index];
+                                    return InkWell(
+                                      onTap: () => Get.to(MovieDetailsScreen(
+                                          movieId: movie.id)),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          movie.posterPath == null
+                                              ? Image.asset(
+                                                  "assets/netflix.png")
+                                              : CachedNetworkImage(
+                                                  imageUrl:
+                                                      "$imageUrl${movie.posterPath}",
+                                                  height: 170,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            movie.title,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
                                             ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        movie.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
             ],

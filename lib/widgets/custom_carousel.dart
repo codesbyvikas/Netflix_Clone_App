@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:netflix_clone_app/data/api_data.dart';
 import 'package:netflix_clone_app/models/tv_series_model.dart';
+import 'package:netflix_clone_app/screens/movie_details_screen.dart';
 
 class CustomCarouselWidget extends StatelessWidget {
   final TvSeriesModel data;
@@ -20,12 +22,13 @@ class CustomCarouselWidget extends StatelessWidget {
         itemBuilder: (BuildContext context, int index, int realIndex) {
           var url = data.results[index].backdropPath.toString();
           return GestureDetector(
-            child: Column(
-              children: [
+            onTap: () =>
+                Get.to(MovieDetailsScreen(movieId: data.results[index].id)),
+            child: Column(children: [
               CachedNetworkImage(
                 imageUrl: "$imageUrl$url",
               ),
-            const  SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(data.results[index].name)
