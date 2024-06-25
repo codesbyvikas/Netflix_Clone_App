@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:netflix_clone_app/data/api_data.dart';
 import 'package:netflix_clone_app/data/api_services.dart';
 import 'package:netflix_clone_app/models/movie_recommendation_model.dart';
 import 'package:netflix_clone_app/models/seach_movie_model.dart';
-import 'package:netflix_clone_app/widgets/movie_card.dart';
+import 'package:netflix_clone_app/screens/movie_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -76,6 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           var data = snapshot.data!.results;
+
                           return Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,36 +91,41 @@ class _SearchScreenState extends State<SearchScreen> {
                                   child: ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 12),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 150,
-                                              width: 100, // Adjust as needed
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Image.network(
-                                                "$imageUrl${data[index].posterPath}",
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Expanded(
-                                              child: Text(
-                                                data[index].title,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.white,
+                                      return InkWell(
+                                        onTap: () => Get.to(MovieDetailsScreen(
+                                            movieId: data[index].id)),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 12),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                height: 150,
+                                                width: 100, // Adjust as needed
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Image.network(
+                                                  "$imageUrl${data[index].posterPath}",
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              const SizedBox(width: 10),
+                                              Expanded(
+                                                child: Text(
+                                                  data[index].title,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -160,7 +167,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ? Image.asset("assets/netflix.png")
                                           : CachedNetworkImage(
                                               imageUrl:
-                                                  "${imageUrl}${movie.backdropPath}",
+                                                  "$imageUrl${movie.backdropPath}",
                                               height: 170,
                                               width: double.infinity,
                                               fit: BoxFit.cover,

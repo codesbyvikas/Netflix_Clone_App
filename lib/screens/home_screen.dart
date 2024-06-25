@@ -69,14 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     future: topRatedTvSeries,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasData) {
                         return CustomCarouselWidget(data: snapshot.data!);
                       } else {
                         return const SizedBox.shrink();
                       }
                     }),
-                SizedBox(
+               const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       future: nowPlayingMovies,
                       headLineText: "Now Playing Movies"),
                 ),
-                SizedBox(
+             const   SizedBox(
                   height: 20,
                 ),
                 SizedBox(

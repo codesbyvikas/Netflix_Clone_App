@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:netflix_clone_app/screens/splash_screen.dart';
 
@@ -11,15 +12,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Netflix Clone",
-      themeMode: ThemeMode.dark,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme:const ColorScheme.dark(),
-        fontFamily: GoogleFonts.ptSans().fontFamily,
-      ),
-      home: const SplashScreen()
-    );
+    return GetMaterialApp(
+        title: "Netflix Clone",
+        themeMode: ThemeMode.dark,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: const ColorScheme.dark(),
+          fontFamily: GoogleFonts.ptSans().fontFamily,
+        ),
+        home: const SplashScreen());
   }
 }

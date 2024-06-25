@@ -31,7 +31,7 @@ class MovieCard extends StatelessWidget {
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.only(right: 12),
+                          padding: const EdgeInsets.only(right: 12),
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20)),
