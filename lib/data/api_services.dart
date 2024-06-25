@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:netflix_clone_app/data/api_data.dart';
+import 'package:netflix_clone_app/models/movie_recommendation_model.dart';
 import 'package:netflix_clone_app/models/seach_movie_model.dart';
 import 'package:netflix_clone_app/models/tv_series_model.dart';
 import 'package:netflix_clone_app/models/upcoming_model.dart';
@@ -64,4 +65,19 @@ class ApiServices {
     }
     throw Exception("Failed to Search Movie");
   }
+
+   Future<MovieRecommendationModel> getRecommendedMOvies() async {
+    endPoint = "movie/popular";
+    final url = "$baseUrl$endPoint$key";
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      print("Search Success");
+      print(response.body);
+      return MovieRecommendationModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("Failed to load Movie Recommandation");
+  }
+
+  
 }
