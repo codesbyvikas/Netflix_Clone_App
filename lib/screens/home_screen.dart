@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:netflix_clone_app/data/api_services.dart';
 import 'package:netflix_clone_app/models/tv_series_model.dart';
 import 'package:netflix_clone_app/models/upcoming_model.dart';
+import 'package:netflix_clone_app/screens/profile_screen.dart';
+import 'package:netflix_clone_app/screens/search_screen.dart';
 import 'package:netflix_clone_app/widgets/custom_carousel.dart';
 import 'package:netflix_clone_app/widgets/movie_card.dart';
 
@@ -40,7 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 20),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Get.to(SearchScreen());
+                },
                 child: const Icon(
                   Icons.search,
                   color: Colors.white,
@@ -49,10 +54,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
-              child: Container(
-                color: Colors.blue,
-                height: 27,
-                width: 27,
+              child: Center(
+                child: Container(
+                  child: IconButton(
+                    onPressed: () {
+                      Get.to(ProfileScreen());
+                    },
+                    icon: Icon(Icons.person),
+                    iconSize: 12,
+                  ),
+                  color: Colors.blue,
+                  height: 27,
+                  width: 27,
+                ),
               ),
             ),
             const SizedBox(
@@ -76,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const SizedBox.shrink();
                       }
                     }),
-               const SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
@@ -85,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       future: nowPlayingMovies,
                       headLineText: "Now Playing Movies"),
                 ),
-             const   SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
