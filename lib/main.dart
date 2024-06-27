@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:netflix_clone_app/screens/signup_screen.dart';
 import 'package:netflix_clone_app/screens/splash_screen.dart';
 
 void main() {
@@ -20,6 +21,6 @@ class MainApp extends StatelessWidget {
           colorScheme: const ColorScheme.dark(),
           fontFamily: GoogleFonts.ptSans().fontFamily,
         ),
-        home: const SplashScreen());
+        home: const SignupScreen());
   }
 }
