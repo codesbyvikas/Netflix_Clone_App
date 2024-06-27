@@ -16,7 +16,7 @@ class CustomCarouselWidget extends StatelessWidget {
 
     return SizedBox(
       width: size.width,
-      height: (size.height * 0.33 < 300) ? 300 : size.height * 0.33,
+      height: (size.height * 0.33 < 100) ? 300 : size.height * 0.33,
       child: CarouselSlider.builder(
         itemCount: data.results.length,
         itemBuilder: (BuildContext context, int index, int realIndex) {

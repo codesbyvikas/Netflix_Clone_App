@@ -24,7 +24,7 @@ class ComingSoonMovieWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8),
+            padding:const EdgeInsets.all(8),
             child: Column(
               children: [
                 const SizedBox(

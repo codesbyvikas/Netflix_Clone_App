@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:netflix_clone_app/data/api_data.dart';
 import 'package:netflix_clone_app/data/api_services.dart';
-import 'package:netflix_clone_app/models/movie_recommendation_model.dart';
 import 'package:netflix_clone_app/models/popular_movie_model.dart';
 import 'package:netflix_clone_app/models/seach_movie_model.dart';
 import 'package:netflix_clone_app/screens/movie_details_screen.dart';
@@ -142,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   : _isLoading
                       ? const Center(
                           child: CircularProgressIndicator(
-                            color: Color(0xFFFF9000),
+                            color: Colors.red,
                           ),
                         )
                       : searchMovieModel == null
@@ -168,16 +167,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          movie.posterPath == null
-                                              ? Image.asset(
-                                                  "assets/netflix.png")
-                                              : CachedNetworkImage(
-                                                  imageUrl:
-                                                      "$imageUrl${movie.posterPath}",
-                                                  height: 170,
-                                                  width: double.infinity,
-                                                  fit: BoxFit.cover,
-                                                ),
+                                          CachedNetworkImage(
+                                            imageUrl:
+                                                "$imageUrl${movie.posterPath}",
+                                            height: 170,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                          ),
                                           const SizedBox(height: 5),
                                           Text(
                                             movie.title,

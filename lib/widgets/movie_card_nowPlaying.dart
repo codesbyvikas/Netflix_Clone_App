@@ -30,7 +30,7 @@ class MovieCard extends StatelessWidget {
                   child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: data.length,
+                      itemCount:data.length ,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 12),

@@ -14,19 +14,19 @@ class NewAndHot extends StatelessWidget {
             title: const Text("New & Hot"),
             elevation: 0,
             actions: [
-              Icon(Icons.cast),
+              const Icon(Icons.cast),
               const SizedBox(width: 20),
               ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Container(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.person),
-                    iconSize: 12,
-                  ),
                   color: Colors.blue,
                   height: 27,
                   width: 27,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.person),
+                    iconSize: 12,
+                  ),
                 ),
               ),
               const SizedBox(width: 20),
@@ -48,7 +48,7 @@ class NewAndHot extends StatelessWidget {
               ],
             ),
           ),
-          body:const TabBarView(
+          body: const TabBarView(
             children: [
               SingleChildScrollView(
                 child: Column(

@@ -19,7 +19,7 @@ class ApiServices {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      print("Success");
+      print("Success Upcoming Movies");
       print(response.body);
       return UpcomingMovieModel.fromJson(jsonDecode(response.body));
     }
@@ -32,7 +32,7 @@ class ApiServices {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      print("Success");
+      print("Success  Now Playing");
       print(response.body);
       return UpcomingMovieModel.fromJson(jsonDecode(response.body));
     }
@@ -45,7 +45,7 @@ class ApiServices {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      print("Search Success");
+      print(" Success Top Rated Series");
       print(response.body);
       return TvSeriesModel.fromJson(jsonDecode(response.body));
     }
@@ -61,27 +61,27 @@ class ApiServices {
     });
 
     if (response.statusCode == 200) {
-      print("Success");
+      print("Success Get Searched Movies");
       print(response.body);
       return SearchMovieModel.fromJson(jsonDecode(response.body));
     }
     throw Exception("Failed to Search Movie");
   }
 
-   Future<PopularMovieModel> getPopularMOvies() async {
+  Future<PopularMovieModel> getPopularMOvies() async {
     endPoint = "movie/popular";
     final url = "$baseUrl$endPoint$key";
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      print("Search Success");
+      print(" Success Popular Movies");
       print(response.body);
       return PopularMovieModel.fromJson(jsonDecode(response.body));
     }
     throw Exception("Failed to load Movie Recommandation");
   }
 
-   Future<MovieDetailsModel> getMovieDetails(int movieId) async {
+  Future<MovieDetailsModel> getMovieDetails(int movieId) async {
     endPoint = "movie/$movieId";
     final url = "$baseUrl$endPoint$key";
     final response = await http.get(Uri.parse(url));
@@ -94,7 +94,7 @@ class ApiServices {
     throw Exception("Failed to load Movie Details");
   }
 
-   Future<MovieRecommendationsModel> getMovieRecommedation(int movieId) async {
+  Future<MovieRecommendationsModel> getMovieRecommedation(int movieId) async {
     endPoint = "movie/$movieId/recommendations";
     final url = "$baseUrl$endPoint$key";
     final response = await http.get(Uri.parse(url));
@@ -106,6 +106,4 @@ class ApiServices {
     }
     throw Exception("Failed to load Recommended Movies");
   }
-
-  
 }

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:netflix_clone_app/data/api_data.dart';
 import 'package:netflix_clone_app/data/api_services.dart';
+import 'package:netflix_clone_app/data/payment_stuff.dart';
 import 'package:netflix_clone_app/models/movie_details_model.dart';
 import 'package:netflix_clone_app/models/movie_recommendation_model.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   final int movieId;
+  static bool isSubscribed = false;
 
   const MovieDetailsScreen({
     super.key,
@@ -22,17 +24,27 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   ApiServices apiServices = ApiServices();
   late Future<MovieDetailsModel> movieDetails;
   late Future<MovieRecommendationsModel> movieRecommendations;
+  static bool isSubscribed = false;
+  late Payment payment;
 
   @override
   void initState() {
     super.initState();
     fetchInitialData();
+    payment = Payment();
   }
 
   void fetchInitialData() {
     movieDetails = apiServices.getMovieDetails(widget.movieId);
     movieRecommendations = apiServices.getMovieRecommedation(widget.movieId);
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    payment.dispose();
   }
 
   @override
@@ -62,7 +74,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    "${imageUrl}${movie.backdropPath}",
+                                    "$imageUrl${movie.backdropPath}",
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -77,7 +89,41 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
+                            if (!isSubscribed)
+                              Positioned.fill(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isSubscribed = true;
+                                          });
+                                          payment.openPayment();
+                                        },
+                                        child: const Text(
+                                          "Subscribe👑 to Watch",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        "only @ Rs20",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                         Padding(
@@ -102,8 +148,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                   ),
                                   Text(
                                     genreText,
-                                    style: TextStyle(color: Colors.grey),
-                                  )
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
                                 ],
                               ),
                               const SizedBox(
@@ -115,7 +161,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 15),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -131,9 +177,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 future: movieRecommendations,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.blue,
+                        color: Colors.red,
                       ),
                     );
                   } else if (snapshot.hasError) {
@@ -180,15 +226,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        recommendationMovie.backdropPath == null
-                                            ? Image.asset("assets/netflix.png")
-                                            : CachedNetworkImage(
-                                                imageUrl:
-                                                    "$imageUrl${recommendationMovie.posterPath}",
-                                                height: 170,
-                                                width: double.infinity,
-                                                fit: BoxFit.cover,
-                                              ),
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              "$imageUrl${recommendationMovie.posterPath}",
+                                          height: 170,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
                                         const SizedBox(height: 5),
                                         Text(
                                           recommendationMovie.title,
